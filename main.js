@@ -1,5 +1,7 @@
 function onSubmit() {
     let operation = "";
+    let intA = document.getElementById("intA");
+    let intB = document.getElementById("intB");
     switch(document.getElementById("operation").value) {
         case "Add":
             operation = "Add";
@@ -15,12 +17,11 @@ function onSubmit() {
             break;
     }
 
-    // console.log(`bıdıbıdı + ${operation}`);
-    var myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("Content-Type", "text/xml; charset=utf-8");
     myHeaders.append("SOAPAction", `http://tempuri.org/${operation}`);
 
-    var raw = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <Add xmlns=\"http://tempuri.org/\">\n      <intA>100</intA>\n      <intB>100</intB>\n    </Add>\n  </soap:Body>\n</soap:Envelope>\n";
+    var raw = `<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <${intA} xmlns=\"http://tempuri.org/\">\n      <intA>${intA}</intA>\n      <intB>${intB}</intB>\n    </${intA}>\n  </soap:Body>\n</soap:Envelope>\n`;
 
     var requestOptions = {
         method: 'POST',
@@ -29,12 +30,10 @@ function onSubmit() {
         redirect: 'follow'
     };
 
-    fetch("http://www.dneonline.com/calculator.asmx", requestOptions)
+    fetch("http://www.dneonline.com/calculator.asmx", {mode: 'no-cors'}, requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
-
-
         
     operation = "";
 }
